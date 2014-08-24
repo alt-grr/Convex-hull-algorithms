@@ -23,7 +23,7 @@ public class GrahamScan implements ConvexHullAlgorithm {
 		Point2D startingPoint =
 				points.stream().min(comparingDouble(Point2D::getY).thenComparingDouble(Point2D::getX)).get();
 
-		// All others points, sorted by polar angle. ascending
+		// All others points, sorted by polar angle, ascending
 		List<Point2D> sortedPoints = points.stream()
 				.filter(point -> !point.equals(startingPoint))
 				.sorted(comparing((Point2D point) ->
@@ -33,15 +33,15 @@ public class GrahamScan implements ConvexHullAlgorithm {
 		List<Point2D> stack = new ArrayList<>();
 		stack.add(startingPoint);
 		stack.add(sortedPoints.get(0));
-		double ccw;
+		double clockwise;
 		for (int i = 1; i < sortedPoints.size(); i++) {
 			Point2D point = sortedPoints.get(i);
 
-			while ((ccw = areClockwise(stack.get(stack.size() - 2), stack.get(stack.size() - 1), point)) >= 0) {
+			while ((clockwise = areClockwise(stack.get(stack.size() - 2), stack.get(stack.size() - 1), point)) >= 0) {
 				Point2D last = stack.get(stack.size() - 1);
 				Point2D previousToLast = stack.get(stack.size() - 2);
 
-				if (ccw == 0 && point.distance(previousToLast) > last.distance(previousToLast)) {
+				if (clockwise == 0 && point.distance(previousToLast) > last.distance(previousToLast)) {
 					stack.remove(stack.size() - 1);
 					stack.add(point);
 				} else {
