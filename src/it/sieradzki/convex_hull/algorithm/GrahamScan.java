@@ -41,11 +41,9 @@ public class GrahamScan implements ConvexHullAlgorithm {
 				Point2D last = stack.get(stack.size() - 1);
 				Point2D previousToLast = stack.get(stack.size() - 2);
 
+				stack.remove(stack.size() - 1);
 				if (clockwise == 0 && point.distance(previousToLast) > last.distance(previousToLast)) {
-					stack.remove(stack.size() - 1);
-					stack.add(point);
-				} else {
-					stack.remove(stack.size() - 1);
+					break;
 				}
 			}
 			stack.add(point);
